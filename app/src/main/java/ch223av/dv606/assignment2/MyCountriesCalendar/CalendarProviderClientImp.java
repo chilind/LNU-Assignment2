@@ -4,14 +4,12 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,20 +21,21 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
     @Override
     public long getMyCountriesCalendarId() {
-        Cursor cursor;
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
         Uri calendarUri = CALENDARS_LIST_URI;
-        cursor = cr.query(calendarUri, CALENDARS_LIST_PROJECTION, CALENDARS_LIST_SELECTION, CALENDARS_LIST_SELECTION_ARGS, null);
+        Cursor cursor = cr.query(calendarUri, CALENDARS_LIST_PROJECTION, CALENDARS_LIST_SELECTION, CALENDARS_LIST_SELECTION_ARGS, null);
 
         if (cursor.moveToFirst()) {
             Log.d("ID", cursor.getLong(PROJ_CALENDARS_LIST_ID_INDEX) + "");
             Log.d("Name", cursor.getString(PROJ_CALENDARS_LIST_NAME_INDEX));
-            return cursor.getLong(PROJ_CALENDARS_LIST_ID_INDEX);
+
+            long a = cursor.getLong(PROJ_CALENDARS_LIST_ID_INDEX);
+            cursor.close();
+
+            return a;
         } else {
             //create calendar
-            Log.d("Creating", "Calendar");
-
             ContentValues v = new ContentValues();
             v.put(CalendarContract.Calendars.ACCOUNT_NAME, ACCOUNT_TITLE);
             v.put(CalendarContract.Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
@@ -48,7 +47,10 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
             Uri creationUri = asSyncAdapter(CALENDARS_LIST_URI, ACCOUNT_TITLE, CalendarContract.Calendars.CAL_ACCESS_OWNER + "");
             Uri calendarData = context.getContentResolver().insert(creationUri, v);
-            Log.d("Calendar", "created");
+            Log.d("getMyCountriesCalId", "Calendar created");
+
+            cursor.close();
+
             return Long.parseLong(calendarData.getLastPathSegment());
         }
     }
@@ -64,7 +66,6 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
 
-        //Cursor cursor = cr.query(Uri.parse("content://calendar/calendars"), new String[]{ "_id", "calendar_displayName" }, null, null, null);
         Cursor cursor = cr.query(CALENDARS_LIST_URI, CALENDARS_LIST_PROJECTION, CALENDARS_LIST_SELECTION, CALENDARS_LIST_SELECTION_ARGS, null);
         if (cursor.moveToFirst()) {
             final String[] calNames = new String[cursor.getCount()];
@@ -93,6 +94,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         } else{
             Log.d("addNewEvent","No calendar found.");
         }
+        cursor.close();
     }
 
     @Override
