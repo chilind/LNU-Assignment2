@@ -1,8 +1,10 @@
 package ch223av.dv606.assignment2.MyCountriesCalendar;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -110,7 +112,21 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
     @Override
     public void updateEvent(int eventId, int year, String country) {
+        long startMillis = CalendarUtils.getEventStart(year);
+        long endMillis = CalendarUtils.getEventEnd(year);
 
+        Context context = MyCountriesCalendar.getContext();
+        ContentResolver cr = context.getContentResolver();
+
+        ContentValues v = new ContentValues();
+        v.put(CalendarContract.Events.TITLE, country);
+        v.put(CalendarContract.Events.DTSTART, startMillis+"");
+        v.put(CalendarContract.Events.DTEND, endMillis+"");
+
+        Uri updateUri = ContentUris.withAppendedId(EVENTS_LIST_URI, eventId);
+        int rows = context.getContentResolver().update(updateUri, v, null, null);
+
+        getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
     }
 
     @Override
