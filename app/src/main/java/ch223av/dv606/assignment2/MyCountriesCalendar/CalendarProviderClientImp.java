@@ -91,6 +91,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
             long eventID = Long.parseLong(calendarData.getLastPathSegment());
             //Log.d("eventID",eventID+"");
 
+            getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
+
         } else{
             Log.d("addNewEvent","No calendar found.");
         }
