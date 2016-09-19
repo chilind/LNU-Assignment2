@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp">
+
+    <TextView android:id="@+id/yearTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="22sp"
+        android:textColor="@color/colorText"
+        tools:text="1999"/>
+
+    <TextView android:id="@+id/countyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/yearTextView"
+        android:layout_toEndOf="@+id/yearTextView"
+        android:paddingLeft="10dp"
+        android:textSize="22sp"
+        android:textColor="@color/colorText"
+        tools:text="The United States of America"/>
+</RelativeLayout>
