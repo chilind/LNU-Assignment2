@@ -18,14 +18,8 @@ import android.util.Log;
 
 
 public class CalendarProviderClientImp extends AppCompatActivity implements CalendarProviderClient {
-    /*
-    String displayName = "";
-    String accountName = "";
-    String ownerName = "";
-    long calendarID = 0;
-    */
-    SimpleCursorAdapter mAdapter;
 
+    SimpleCursorAdapter mAdapter;
 
     @Override
     public long getMyCountriesCalendarId() {
@@ -61,15 +55,6 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
 
     @Override
-    /*
-    Implement the addNewEvent() method. It should be invoked from your code after parsing and validating
-    user input values for year and country title (in Assignment 1, you probably simply added a new item
-    to a list at this point). The idea is that you use ContentResolver.insert() to create a new calendar
-    event. You should use the country title as the event name, and transform the year value into event
-    start & end timestamps by invoking corresponding methods from CalendarUtils provided in the starter kit.
-    At this point, you should be able to see the new events added to the calendar with the stock Android
-    calendar application (events will be created on January 1st of the respective years).
-    */
     public void addNewEvent(int year, String country) {
 
         long startMillis = CalendarUtils.getEventStart(year);
@@ -106,7 +91,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
             //Log.d("eventID",eventID+"");
 
         } else{
-            Log.d("Warning2","No calendar found.");
+            Log.d("addNewEvent","No calendar found.");
         }
     }
 
@@ -133,7 +118,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Context context = MyCountriesCalendar.getContext();
 
         Uri deleteUri = ContentUris.withAppendedId(EVENTS_LIST_URI, eventId);
-        context.getContentResolver().delete(deleteUri, null, null);
+        int event = context.getContentResolver().delete(deleteUri, null, null);
+        Log.i("deleteEvent", "Event deleted: " + event);
 
         getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
     }
@@ -144,8 +130,6 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         getLoaderManager().initLoader(0, null, this);
         return null;
     }
-
-
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
@@ -164,39 +148,4 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, account)
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, accountType).build();
     }
-
-
-    static Uri asSyncAdapterNewCalendar(Uri uri,
-                                        String account,
-                                        String accountType,
-                                        String name,
-                                        int color,
-                                        String access_level) {
-        return uri.buildUpon()
-                .appendQueryParameter(android.provider.CalendarContract.CALLER_IS_SYNCADAPTER,"true")
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, account)
-                .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, accountType)
-                .appendQueryParameter(CalendarContract.Calendars.NAME, name)
-                .appendQueryParameter(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME, name)
-                .appendQueryParameter(CalendarContract.Calendars.CALENDAR_COLOR, color+"")
-                .appendQueryParameter(CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL, access_level)
-                .appendQueryParameter(CalendarContract.Calendars.OWNER_ACCOUNT, account).build();
-    }
-
-
-    // Projection array. Creating indices for this array instead of doing
-    // dynamic lookups improves performance.
-    public static final String[] EVENT_PROJECTION = new String[] {
-            CalendarContract.Calendars._ID,                           // 0
-            CalendarContract.Calendars.ACCOUNT_NAME,                  // 1
-            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 2
-            CalendarContract.Calendars.OWNER_ACCOUNT                  // 3
-    };
-
-    // The indices for the projection array above.
-    private static final int PROJECTION_ID_INDEX = 0;
-    private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
-    private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
-    private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-
 }
