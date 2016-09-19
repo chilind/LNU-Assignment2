@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -21,6 +22,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
     String ownerName = "";
     long calendarID = 0;
     */
+    SimpleCursorAdapter mAdapter;
+
 
     @Override
     public long getMyCountriesCalendarId() {
@@ -117,21 +120,22 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        getLoaderManager().initLoader(id, args, );
-
-
+        // Prepare the loader.  Either re-connect with an existing one, or start a new one.
+        getLoaderManager().initLoader(0, null, this);
+        return null;
     }
 
 
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        Log.d("onLoadFinished",data.toString());
+        mAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        mAdapter.swapCursor(null);
     }
 
     static Uri asSyncAdapter(Uri uri, String account, String accountType) {
@@ -174,6 +178,5 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
     private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
     private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
     private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
-
 
 }
