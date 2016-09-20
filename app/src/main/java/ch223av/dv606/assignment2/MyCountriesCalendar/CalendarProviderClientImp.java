@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -26,9 +27,6 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Cursor cursor = cr.query(calendarUri, CALENDARS_LIST_PROJECTION, CALENDARS_LIST_SELECTION, CALENDARS_LIST_SELECTION_ARGS, null);
 
         if (cursor.moveToFirst()) {
-            Log.d("ID", cursor.getLong(PROJ_CALENDARS_LIST_ID_INDEX) + "");
-            Log.d("Name", cursor.getString(PROJ_CALENDARS_LIST_NAME_INDEX));
-
             long a = cursor.getLong(PROJ_CALENDARS_LIST_ID_INDEX);
             cursor.close();
 
@@ -46,7 +44,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
             Uri creationUri = asSyncAdapter(CALENDARS_LIST_URI, ACCOUNT_TITLE, CalendarContract.Calendars.CAL_ACCESS_OWNER + "");
             Uri calendarData = context.getContentResolver().insert(creationUri, v);
-            Log.d("getMyCountriesCalId", "Calendar created");
+            Log.i("getMyCountriesCalId", "Calendar created");
 
             cursor.close();
 
@@ -62,13 +60,12 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         long endMillis = CalendarUtils.getEventEnd(year);
         String timezone = CalendarUtils.getTimeZoneId();
 
-        if(getLoaderManager()==null){
-            Log.i("addNewEvent","Creating loaderManager");
+        if (getLoaderManager() == null) {
+            Log.i("addNewEvent", "Creating loaderManager");
             getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
-        }
-        else{
-            Log.i("addNewEvent","LoaderManager already existing");
-            Log.i("getLoaderManager",getLoaderManager().toString());
+        } else {
+            Log.i("addNewEvent", "LoaderManager already existing");
+            //Log.i("getLoaderManager",getLoaderManager().toString());
         }
 
         Context context = MyCountriesCalendar.getContext();
@@ -85,24 +82,22 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
             }
             //add event
             ContentValues v = new ContentValues();
-            v.put(CalendarContract.Events.CALENDAR_ID, calIds[0]+"");
+            v.put(CalendarContract.Events.CALENDAR_ID, calIds[0] + "");
             v.put(CalendarContract.Events.DTSTART, startMillis + "");
             v.put(CalendarContract.Events.DTEND, endMillis + "");
             v.put(CalendarContract.Events.TITLE, country);
             v.put(CalendarContract.Events.EVENT_TIMEZONE, timezone + "");
 
-            //Uri creationUri = asSyncAdapter(CALENDARS_LIST_URI, ACCOUNT_TITLE, CalendarContract.Calendars.CAL_ACCESS_OWNER + "");
-            //Uri calendarData = context.getContentResolver().insert(creationUri, v);
             Uri calendarData = context.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, v);
 
             // get the event ID that is the last element in the Uri
             long eventID = Long.parseLong(calendarData.getLastPathSegment());
-            //Log.d("eventID",eventID+"");
+            Log.i("eventID",eventID+"");
 
             getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
 
         } else{
-            Log.d("addNewEvent","No calendar found.");
+            Log.i("addNewEvent","No calendar found.");
         }
         cursor.close();
     }
@@ -138,14 +133,13 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Prepare the loader.  Either re-connect with an existing one, or start a new one.
-        //getLoaderManager().initLoader(0, null, this);
-        return null;
+        return new CursorLoader(MyCountriesCalendar.getContext(),
+                CalendarContract.Events.CONTENT_EXCEPTION_URI, null, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d("onLoadFinished",data.toString());
+        Log.i("onLoadFinished",data.toString());
         mAdapter.swapCursor(data);
     }
 

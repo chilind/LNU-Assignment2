@@ -37,7 +37,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
         mContext = getApplicationContext();
         CalendarProviderClient test = new CalendarProviderClientImp();
         long calendarId = test.getMyCountriesCalendarId();
-        Log.d("Calendar id",calendarId+"");
+        //Log.d("Calendar id",calendarId+"");
 
         adapter = new VisitAdapter(this, R.layout.country_year_item, mCountries);
         mListView = (ListView) findViewById(R.id.list);
@@ -49,7 +49,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
         //Should not be run here!
         test.addNewEvent(2016,"Denmark");
-        test.deleteEvent(20);
+        test.deleteEvent(36);
     }
 
     @Override
