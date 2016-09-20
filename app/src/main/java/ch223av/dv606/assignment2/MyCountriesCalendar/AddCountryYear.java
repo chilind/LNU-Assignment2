@@ -55,10 +55,14 @@ public class AddCountryYear extends AppCompatActivity {
 
 
                 if(year != "" && country != ""){
+
+                    CalendarProviderClient calendarImp = new CalendarProviderClientImp();
+                    calendarImp.addNewEvent(Integer.parseInt(year),country);
+
                     mVisit.setCountry(country);
                     mVisit.setYear(Integer.parseInt(year));
 
-                    Log.d(TAG,mVisit.getCountry());
+                    Log.i(TAG,mVisit.getCountry());
 
                     Intent resultIntent = new Intent();
                     //Add extras to this intent.

@@ -1,10 +1,12 @@
 package ch223av.dv606.assignment2.MyCountriesCalendar;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -18,6 +20,7 @@ import android.util.Log;
 public class CalendarProviderClientImp extends AppCompatActivity implements CalendarProviderClient {
 
     SimpleCursorAdapter mAdapter;
+    private Visit mVisit;
 
     @Override
     public long getMyCountriesCalendarId() {
@@ -88,7 +91,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
             v.put(CalendarContract.Events.TITLE, country);
             v.put(CalendarContract.Events.EVENT_TIMEZONE, timezone + "");
 
-            Uri calendarData = context.getContentResolver().insert(CalendarContract.Events.CONTENT_URI, v);
+            Uri calendarData = cr.insert(CalendarContract.Events.CONTENT_URI, v);
 
             // get the event ID that is the last element in the Uri
             long eventID = Long.parseLong(calendarData.getLastPathSegment());
@@ -147,6 +150,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
+
 
     static Uri asSyncAdapter(Uri uri, String account, String accountType) {
         return uri.buildUpon()

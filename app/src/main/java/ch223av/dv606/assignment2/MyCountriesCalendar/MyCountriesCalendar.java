@@ -1,8 +1,10 @@
 package ch223av.dv606.assignment2.MyCountriesCalendar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,8 +22,10 @@ public class MyCountriesCalendar extends AppCompatActivity{
     static final int SET_COUNTRY_REQUEST = 1;  // The request code
 
     private ch223av.dv606.assignment2.MyCountriesCalendar.Visit mVisit;
+    private Visit mVisit2;
     private ArrayList<ch223av.dv606.assignment2.MyCountriesCalendar.Visit> mCountries = new ArrayList<Visit>();
     private ch223av.dv606.assignment2.MyCountriesCalendar.adapters.VisitAdapter adapter;
+    private VisitAdapter adapter2;
     private ListView mListView;
     private static Context mContext;
     private TextView mCountryLabel;
@@ -48,8 +52,38 @@ public class MyCountriesCalendar extends AppCompatActivity{
         }
 
         //Should not be run here!
-        test.addNewEvent(2016,"Denmark");
-        test.deleteEvent(36);
+        //test.addNewEvent(2016,"Denmark");
+        //test.deleteEvent(36);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("onResume","got here!");
+        mVisit2 = new Visit(Parcel.obtain());
+
+        CalendarProviderClient CPC = new CalendarProviderClientImp();
+        long calId = CPC.getMyCountriesCalendarId();
+
+
+        String ADD_COUNTRY = "ADD_COUNTRY";
+        String country = "abc";
+        String year = "2016";
+
+        mVisit2.setCountry(country);
+        mVisit2.setYear(Integer.parseInt(year));
+
+        adapter2 = new VisitAdapter(this, R.layout.country_year_item, mCountries);
+        mListView = (ListView) findViewById(R.id.list);
+        try {
+            mListView.setAdapter(adapter2);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        mCountries.clear();
+        mCountries.add(mVisit2);
+        adapter2.notifyDataSetChanged();
     }
 
     @Override
@@ -76,7 +110,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
     }
     public void startAddCountryActivity() {
         //Display
-        Intent intent = new Intent(this, ch223av.dv606.assignment2.MyCountriesCalendar.AddCountryYear.class);
+        Intent intent = new Intent(this, AddCountryYear.class);
         startActivityForResult(intent, SET_COUNTRY_REQUEST);
     }
 
@@ -86,7 +120,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
         if (requestCode == SET_COUNTRY_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                mVisit = (ch223av.dv606.assignment2.MyCountriesCalendar.Visit) data.getParcelableExtra(ch223av.dv606.assignment2.MyCountriesCalendar.AddCountryYear.ADD_COUNTRY);
+                mVisit = data.getParcelableExtra(AddCountryYear.ADD_COUNTRY);
                 mCountries.add(mVisit);
 
                 adapter.notifyDataSetChanged();

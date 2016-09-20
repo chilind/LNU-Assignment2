@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import ch223av.dv606.assignment2.R;
 import ch223av.dv606.assignment2.MyCountriesCalendar.Visit;
+import ch223av.dv606.assignment2.MyCountriesCalendar.CalendarProviderClient;
 
 
 public class VisitAdapter extends ArrayAdapter<Visit> {
