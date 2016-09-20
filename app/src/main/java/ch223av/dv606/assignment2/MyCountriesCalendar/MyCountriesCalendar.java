@@ -48,7 +48,8 @@ public class MyCountriesCalendar extends AppCompatActivity{
         }
 
         //Should not be run here!
-        test.addNewEvent(2016,"Sweden");
+        test.addNewEvent(2016,"Denmark");
+        test.deleteEvent(20);
     }
 
     @Override

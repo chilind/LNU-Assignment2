@@ -14,7 +14,6 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-
 public class CalendarProviderClientImp extends AppCompatActivity implements CalendarProviderClient {
 
     SimpleCursorAdapter mAdapter;
@@ -62,6 +61,15 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         long startMillis = CalendarUtils.getEventStart(year);
         long endMillis = CalendarUtils.getEventEnd(year);
         String timezone = CalendarUtils.getTimeZoneId();
+
+        if(getLoaderManager()==null){
+            Log.i("addNewEvent","Creating loaderManager");
+            getLoaderManager().initLoader(LOADER_MANAGER_ID, null, this);
+        }
+        else{
+            Log.i("addNewEvent","LoaderManager already existing");
+            Log.i("getLoaderManager",getLoaderManager().toString());
+        }
 
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
@@ -131,7 +139,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // Prepare the loader.  Either re-connect with an existing one, or start a new one.
-        getLoaderManager().initLoader(0, null, this);
+        //getLoaderManager().initLoader(0, null, this);
         return null;
     }
 
