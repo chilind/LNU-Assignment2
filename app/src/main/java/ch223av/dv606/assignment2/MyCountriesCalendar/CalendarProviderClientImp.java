@@ -22,6 +22,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
     SimpleCursorAdapter mAdapter;
     private Visit mVisit;
+    private String ascDes = "dtstart ASC";
 
     @Override
     public long getMyCountriesCalendarId() {
@@ -117,11 +118,18 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         v.put(CalendarContract.Events.DTSTART, startMillis+"");
         v.put(CalendarContract.Events.DTEND, endMillis+"");
 
-        Uri updateUri = ContentUris.withAppendedId(EVENTS_LIST_URI, eventId);
+        //Get correct event id.
+        ContentResolver cr = context.getContentResolver();
+        String[] eventsId = {CalendarContract.Events._ID};
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,ascDes);
+        cursor.moveToPosition(eventId);
+
+        Uri updateUri = ContentUris.withAppendedId(EVENTS_LIST_URI, cursor.getInt(0));
         int rows = context.getContentResolver().update(updateUri, v, null, null);
         Log.i("updateEvent", "Rows updated: " + rows);
 
         getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
+        cursor.close();
     }
 
     @Override
@@ -130,7 +138,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         ContentResolver cr = context.getContentResolver();
         String[] eventsId = {CalendarContract.Events._ID};
 
-        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,"dtstart ASC");
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,ascDes);
 
         cursor.moveToPosition(eventId);
         Uri deleteUri = ContentUris.withAppendedId(EVENTS_LIST_URI, cursor.getInt(0));
@@ -175,7 +183,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
 
-        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,"dtstart ASC");
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,ascDes);
         Visit[] mVisitList = new Visit[cursor.getCount()];
 
         if (cursor.moveToFirst()) {

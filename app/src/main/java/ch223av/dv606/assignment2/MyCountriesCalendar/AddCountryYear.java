@@ -52,7 +52,6 @@ public class AddCountryYear extends AppCompatActivity {
                     country = mCountry.getText().toString();
                 }
 
-
                 if(year != "" && country != ""){
 
                     CalendarProviderClient calendarImp = new CalendarProviderClientImp();
@@ -77,13 +76,9 @@ public class AddCountryYear extends AppCompatActivity {
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }
-
-
-
             }
         };
         mSaveYearCountryButton.setOnClickListener(saveListener);
-
     }
 }
 

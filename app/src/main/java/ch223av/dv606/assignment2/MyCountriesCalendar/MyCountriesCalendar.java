@@ -71,6 +71,9 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
     public void functionEdit(int id) {
         Log.i("functionEdit - id",id+"");
+        CalendarProviderClient test = new CalendarProviderClientImp();
+        test.updateEvent(id,2017,"Öland");
+        onResume();
     }
     public void functionDelete(int id) {
         Log.i("functionDelete - id",id+"");
