@@ -1,11 +1,8 @@
 package ch223av.dv606.assignment2.MyCountriesCalendar;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -15,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -24,6 +22,8 @@ import ch223av.dv606.assignment2.MyCountriesCalendar.adapters.VisitAdapter;
 public class MyCountriesCalendar extends AppCompatActivity{
     static final int SET_COUNTRY_REQUEST = 1;
     static final int SET_VISIT_REQUEST = 2;
+
+    public static String ascDesc = "dtstart ASC";
 
     private Visit mVisit;
     private Visit mEditVisit;
@@ -130,13 +130,33 @@ public class MyCountriesCalendar extends AppCompatActivity{
                 startAddVisitActivity();
                 return true;
 
+            case R.id.action_sort:
+                startSortActivity();
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
-
         }
     }
+
+    private void startSortActivity() {
+        Context context = getApplicationContext();
+        int toastDuration = Toast.LENGTH_SHORT;
+        if(ascDesc == "dtstart ASC"){
+            ascDesc = "dtstart DESC";
+            CharSequence text = "Sorting descending order.";
+            (Toast.makeText(context, text, toastDuration)).show();
+        }
+        else{
+            ascDesc = "dtstart ASC";
+            CharSequence text = "Sorting ascending order.";
+            (Toast.makeText(context, text, toastDuration)).show();
+        }
+        onResume();
+    }
+
     public void startAddVisitActivity() {
         //Display
         Intent intent = new Intent(this, AddVisit.class);
@@ -161,11 +181,9 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
             CalendarProviderClient test = new CalendarProviderClientImp();
             test.updateEvent(editID, year, country);
-            //onResume();
         }
     }
     public static Context getContext() {
-        //  return instance.getApplicationContext();
         return mContext;
     }
 }

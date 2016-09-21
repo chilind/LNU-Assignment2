@@ -1,15 +1,13 @@
 <resources>
     <string name="app_name">Assignment2</string>
 
-
     <string name="my_countries_title">My Countries</string>
-    <string name="action_test">Add country</string>
+    <string name="action_test">Add visit</string>
     <string name="no_countries_added">Add a country</string>
     <string name="year_hint">Year</string>
     <string name="country_hint">Country</string>
     <string name="save_country_year_button">Save</string>
     <string name="add_country_year_text">Add the country and year you visited</string>
     <string name="add_country_toast">Enter both year and country!</string>
-
 
 </resources>
