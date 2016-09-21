@@ -18,8 +18,7 @@ import ch223av.dv606.assignment2.R;
 public class AddCountryYear extends AppCompatActivity {
 
     public static final String TAG = AddCountryYear.class.getSimpleName();
-    public static final String ADD_COUNTRY = "ADD_COUNTRY";
-    public static final String ADD_YEAR = "ADD_YEAR";
+    public static final String ADD_VISIT = "ADD_VISIT";
 
     private Button mSaveYearCountryButton;
     private EditText mYear;
@@ -66,7 +65,7 @@ public class AddCountryYear extends AppCompatActivity {
 
                     Intent resultIntent = new Intent();
                     //Add extras to this intent.
-                    resultIntent.putExtra(ADD_COUNTRY, mVisit);
+                    resultIntent.putExtra(ADD_VISIT, mVisit);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 }

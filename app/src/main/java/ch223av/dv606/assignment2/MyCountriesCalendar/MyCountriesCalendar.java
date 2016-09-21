@@ -11,9 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import java.util.ArrayList;
 
 import ch223av.dv606.assignment2.R;
@@ -141,7 +140,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
         if (requestCode == SET_COUNTRY_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                mVisit = data.getParcelableExtra(AddCountryYear.ADD_COUNTRY);
+                mVisit = data.getParcelableExtra(AddCountryYear.ADD_VISIT);
                 mCountries.add(mVisit);
 
                 adapter.notifyDataSetChanged();
