@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorPrimary">
 
-    <TextView android:id="@+id/addCountryTextView"
+    <TextView android:id="@+id/editCountryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_country_year_text"
@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="86dp"/>
 
-    <EditText android:id="@+id/yearEditText"
+    <EditText android:id="@+id/editYearEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
@@ -29,24 +29,24 @@
         android:layout_centerVertical="true"
         android:hint="@string/year_hint" />
 
-    <EditText android:id="@+id/countryEditText"
+    <EditText android:id="@+id/editCountryEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textCapWords"
         android:textColor="@color/colorText"
         android:textColorHint="@color/colorText"
         android:hint="@string/country_hint"
-        android:layout_toRightOf="@+id/yearEditText"
-        android:layout_toEndOf="@+id/yearEditText"
-        android:layout_alignTop="@+id/yearEditText"/>
+        android:layout_toRightOf="@+id/editYearEditText"
+        android:layout_toEndOf="@+id/editYearEditText"
+        android:layout_alignTop="@+id/editYearEditText"/>
 
-    <Button android:id="@+id/saveCountryYearButton"
+    <Button android:id="@+id/saveEditVisitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save_country_year_button"
         android:textColor="@color/colorText"
         android:background="@color/colorBackgroundButton"
-        android:layout_below="@+id/countryEditText"
+        android:layout_below="@+id/editCountryEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"/>
 </RelativeLayout>

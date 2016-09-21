@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import ch223av.dv606.assignment2.R;
 
-public class AddCountryYear extends AppCompatActivity {
+public class AddVisit extends AppCompatActivity {
 
-    public static final String TAG = AddCountryYear.class.getSimpleName();
+    public static final String TAG = AddVisit.class.getSimpleName();
     public static final String ADD_VISIT = "ADD_VISIT";
 
     private Button mSaveYearCountryButton;

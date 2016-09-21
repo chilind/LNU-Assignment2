@@ -19,14 +19,17 @@ import ch223av.dv606.assignment2.R;
 import ch223av.dv606.assignment2.MyCountriesCalendar.adapters.VisitAdapter;
 
 public class MyCountriesCalendar extends AppCompatActivity{
-    static final int SET_COUNTRY_REQUEST = 1;  // The request code
+    static final int SET_COUNTRY_REQUEST = 1;
+    static final int SET_VISIT_REQUEST = 2;
 
     private Visit mVisit;
+    private Visit mEditVisit;
     private ArrayList<Visit> mCountries = new ArrayList<Visit>();
     private VisitAdapter adapter;
     private VisitAdapter adapter2;
     private ListView mListView;
     private static Context mContext;
+    private int editID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +73,13 @@ public class MyCountriesCalendar extends AppCompatActivity{
     }
 
     public void functionEdit(int id) {
-        Log.i("functionEdit - id",id+"");
-        CalendarProviderClient test = new CalendarProviderClientImp();
-        test.updateEvent(id,2017,"Öland");
-        onResume();
+        Log.i("functionEdit - id", id + "");
+        editID = id;
+
+        Intent intent2 = new Intent(this, EditVisit.class);
+        startActivityForResult(intent2, SET_VISIT_REQUEST);
     }
+
     public void functionDelete(int id) {
         Log.i("functionDelete - id",id+"");
         CalendarProviderClient test = new CalendarProviderClientImp();
@@ -102,8 +107,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
         for(int i=0; i<events.length; i++){
             mCountries.add(events[i]);
-            //Log.i("Events",events[i].getCountry());
-            //Log.i("Events",events[i].getYear()+"");
         }
 
         adapter2.notifyDataSetChanged();
@@ -121,7 +124,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
         switch (item.getItemId()) {
             case R.id.action_addCountry:
                 // User pressed the "Add country" button --> show the activity...
-                startAddCountryActivity();
+                startAddVisitActivity();
                 return true;
 
             default:
@@ -131,9 +134,9 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
         }
     }
-    public void startAddCountryActivity() {
+    public void startAddVisitActivity() {
         //Display
-        Intent intent = new Intent(this, AddCountryYear.class);
+        Intent intent = new Intent(this, AddVisit.class);
         startActivityForResult(intent, SET_COUNTRY_REQUEST);
     }
 
@@ -143,11 +146,19 @@ public class MyCountriesCalendar extends AppCompatActivity{
         if (requestCode == SET_COUNTRY_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                mVisit = data.getParcelableExtra(AddCountryYear.ADD_VISIT);
-                mCountries.add(mVisit);
-
-                adapter.notifyDataSetChanged();
+                mVisit = data.getParcelableExtra(AddVisit.ADD_VISIT);
+                //mCountries.add(mVisit);
+                //adapter.notifyDataSetChanged();
             }
+        }else if(requestCode == SET_VISIT_REQUEST) {
+            mEditVisit = data.getParcelableExtra(EditVisit.EDIT_VISIT);
+
+            String country = mEditVisit.getCountry();
+            int year = mEditVisit.getYear();
+
+            CalendarProviderClient test = new CalendarProviderClientImp();
+            test.updateEvent(editID, year, country);
+            //onResume();
         }
     }
     public static Context getContext() {

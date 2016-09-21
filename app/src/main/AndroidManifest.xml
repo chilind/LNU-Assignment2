@@ -22,7 +22,9 @@
         </activity>
         <activity android:name="ch223av.dv606.assignment2.MyCountriesCalendar.MyCountriesCalendar"
                   android:parentActivityName="ch223av.dv606.assignment2.MainActivity"/>
-        <activity android:name=".MyCountriesCalendar.AddCountryYear"
+        <activity android:name=".MyCountriesCalendar.AddVisit"
+                  android:parentActivityName=".MyCountriesCalendar.MyCountriesCalendar"/>
+        <activity android:name=".MyCountriesCalendar.EditVisit"
                   android:parentActivityName=".MyCountriesCalendar.MyCountriesCalendar"/>
     </application>
 

@@ -52,6 +52,4 @@ public class Visit implements Parcelable{
     public void setYear(int year) {
         mYear = year;
     }
-
-
 }

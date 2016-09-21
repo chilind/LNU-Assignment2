@@ -1,5 +1,6 @@
 package ch223av.dv606.assignment2.MyCountriesCalendar;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -8,12 +9,14 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.provider.CalendarContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -57,7 +60,6 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         }
     }
 
-
     @Override
     public void addNewEvent(int year, String country) {
 
@@ -93,11 +95,21 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
             v.put(CalendarContract.Events.TITLE, country);
             v.put(CalendarContract.Events.EVENT_TIMEZONE, timezone + "");
 
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             Uri calendarData = cr.insert(CalendarContract.Events.CONTENT_URI, v);
 
             // get the event ID that is the last element in the Uri
             long eventID = Long.parseLong(calendarData.getLastPathSegment());
-            Log.i("eventID",eventID+"");
+            Log.i("addNewEvent - eventID",eventID+"");
 
             getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
 
@@ -125,8 +137,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         cursor.moveToPosition(eventId);
 
         Uri updateUri = ContentUris.withAppendedId(EVENTS_LIST_URI, cursor.getInt(0));
-        int rows = context.getContentResolver().update(updateUri, v, null, null);
-        Log.i("updateEvent", "Rows updated: " + rows);
+        context.getContentResolver().update(updateUri, v, null, null);
+        Log.i("updateEvent", "Event updated: " + cursor.getInt(0));
 
         getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
         cursor.close();
