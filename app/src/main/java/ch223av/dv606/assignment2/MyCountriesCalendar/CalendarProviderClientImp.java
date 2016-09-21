@@ -170,24 +170,14 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         ContentResolver cr = context.getContentResolver();
 
         Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,null,null,null);
-        final String[] eventTitles = new String[cursor.getCount()];
-        final String[] eventYear = new String[cursor.getCount()];
         Visit[] mVisitList = new Visit[cursor.getCount()];
 
-
-        CalendarProviderClient CPC = new CalendarProviderClientImp();
-        long calId = CPC.getMyCountriesCalendarId();
-
         if (cursor.moveToFirst()) {
-            for (int i = 0; i < eventTitles.length; i++) {
-                //eventTitles[i] = cursor.getString(0);
-                //eventYear[i] = CalendarUtils.getEventYear(Long.parseLong(cursor.getString(1)))+"";
+            for (int i = 0; i < mVisitList.length; i++) {
                 mVisit = new Visit(Parcel.obtain());
                 mVisit.setCountry(cursor.getString(0));
                 mVisit.setYear(CalendarUtils.getEventYear(Long.parseLong(cursor.getString(1))));
                 mVisitList[i] = mVisit;
-                //Log.i("getCalendarVisits()", eventTitles[i]);
-                //Log.i("getCalendarVisits()", eventYear[i]);
                 cursor.moveToNext();
             }
         }
