@@ -169,7 +169,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
 
-        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,null,null,null);
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,"dtstart ASC");
         Visit[] mVisitList = new Visit[cursor.getCount()];
 
         if (cursor.moveToFirst()) {
@@ -181,6 +181,17 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
                 cursor.moveToNext();
             }
         }
+
+        /*
+        Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
+        //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
+
+        Cursor eventCursor = cr.query(builder.build(),
+                new String[]  { "title", "begin", }, "Calendars._id=" + 1,null, "startDay ASC, startMinute ASC");
+        */
+
+
+
 
         cursor.close();
 

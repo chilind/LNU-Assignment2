@@ -19,16 +19,12 @@ import ch223av.dv606.assignment2.MyCountriesCalendar.adapters.VisitAdapter;
 public class MyCountriesCalendar extends AppCompatActivity{
     static final int SET_COUNTRY_REQUEST = 1;  // The request code
 
-    private ch223av.dv606.assignment2.MyCountriesCalendar.Visit mVisit;
-    private Visit mVisit2;
-    private ArrayList<ch223av.dv606.assignment2.MyCountriesCalendar.Visit> mCountries = new ArrayList<Visit>();
-    private ch223av.dv606.assignment2.MyCountriesCalendar.adapters.VisitAdapter adapter;
+    private Visit mVisit;
+    private ArrayList<Visit> mCountries = new ArrayList<Visit>();
+    private VisitAdapter adapter;
     private VisitAdapter adapter2;
     private ListView mListView;
     private static Context mContext;
-    private TextView mCountryLabel;
-    private TextView mYearLabel;
-    private Button mActionBarButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +56,7 @@ public class MyCountriesCalendar extends AppCompatActivity{
         }
 
         CalendarProviderClient test = new CalendarProviderClientImp();
+
         Visit[] events = test.getCalendarVisits();
         mCountries.clear();
 
