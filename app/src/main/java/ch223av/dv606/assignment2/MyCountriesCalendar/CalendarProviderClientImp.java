@@ -95,16 +95,6 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
             v.put(CalendarContract.Events.TITLE, country);
             v.put(CalendarContract.Events.EVENT_TIMEZONE, timezone + "");
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
             Uri calendarData = cr.insert(CalendarContract.Events.CONTENT_URI, v);
 
             // get the event ID that is the last element in the Uri
