@@ -127,12 +127,18 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
     @Override
     public void deleteEvent(int eventId) {
         Context context = MyCountriesCalendar.getContext();
+        ContentResolver cr = context.getContentResolver();
+        String[] eventsId = {CalendarContract.Events._ID};
 
-        Uri deleteUri = ContentUris.withAppendedId(EVENTS_LIST_URI, eventId);
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null,"dtstart ASC");
+
+        cursor.moveToPosition(eventId);
+        Uri deleteUri = ContentUris.withAppendedId(EVENTS_LIST_URI, cursor.getInt(0));
         int event = context.getContentResolver().delete(deleteUri, null, null);
-        Log.i("deleteEvent", "Event deleted: " + event);
+        Log.i("deleteEvent", "Event deleted: " + cursor.getInt(0));
 
         getLoaderManager().restartLoader(LOADER_MANAGER_ID, null, this);
+        cursor.close();
     }
 
     @Override
@@ -181,20 +187,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
                 cursor.moveToNext();
             }
         }
-
-        /*
-        Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
-        //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
-
-        Cursor eventCursor = cr.query(builder.build(),
-                new String[]  { "title", "begin", }, "Calendars._id=" + 1,null, "startDay ASC, startMinute ASC");
-        */
-
-
-
-
         cursor.close();
-
         return mVisitList;
     }
 }

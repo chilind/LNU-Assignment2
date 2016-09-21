@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,7 +44,42 @@ public class MyCountriesCalendar extends AppCompatActivity{
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
+        registerForContextMenu(mListView);
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Context Menu");
+        menu.add(0, v.getId(), 0, "Edit");
+        menu.add(0, v.getId(), 0, "Delete");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getTitle()=="Edit"){
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            functionEdit(info.position);
+        }
+        else if(item.getTitle()=="Delete"){
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            functionDelete(info.position);
+        }
+        else { return false; }
+        return true;
+    }
+
+    public void functionEdit(int id) {
+        Log.i("functionEdit - id",id+"");
+    }
+    public void functionDelete(int id) {
+        Log.i("functionDelete - id",id+"");
+        CalendarProviderClient test = new CalendarProviderClientImp();
+        test.deleteEvent(id);
+        onResume();
+    }
+
 
     @Override
     protected void onResume() {
