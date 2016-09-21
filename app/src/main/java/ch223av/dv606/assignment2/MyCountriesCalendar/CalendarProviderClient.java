@@ -219,7 +219,7 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      */
     void onLoaderReset(Loader<Cursor> loader);
 
-    public String[] getEvents();
+    public Visit[] getCalendarVisits();
 
 
 }

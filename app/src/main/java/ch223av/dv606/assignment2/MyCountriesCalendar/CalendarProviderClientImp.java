@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.provider.CalendarContract;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
@@ -159,10 +160,10 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, accountType).build();
     }
 
-    public String[] getEvents(){
+    public Visit[] getCalendarVisits(){
         String[] eventsArr = {
                 CalendarContract.Events.TITLE,
-                CalendarContract.Events._ID
+                CalendarContract.Events.DTSTART
         };
 
         Context context = MyCountriesCalendar.getContext();
@@ -170,19 +171,29 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
         Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,null,null,null);
         final String[] eventTitles = new String[cursor.getCount()];
-        final String[] eventIds = new String[cursor.getCount()];
+        final String[] eventYear = new String[cursor.getCount()];
+        Visit[] mVisitList = new Visit[cursor.getCount()];
+
+
+        CalendarProviderClient CPC = new CalendarProviderClientImp();
+        long calId = CPC.getMyCountriesCalendarId();
 
         if (cursor.moveToFirst()) {
             for (int i = 0; i < eventTitles.length; i++) {
-                eventTitles[i] = cursor.getString(0);
-                eventIds[i] = cursor.getString(1);
-                //Log.i("getEvents()", eventTitles[i]);
-                //Log.i("getEvents()", eventIds[i]);
+                //eventTitles[i] = cursor.getString(0);
+                //eventYear[i] = CalendarUtils.getEventYear(Long.parseLong(cursor.getString(1)))+"";
+                mVisit = new Visit(Parcel.obtain());
+                mVisit.setCountry(cursor.getString(0));
+                mVisit.setYear(CalendarUtils.getEventYear(Long.parseLong(cursor.getString(1))));
+                mVisitList[i] = mVisit;
+                //Log.i("getCalendarVisits()", eventTitles[i]);
+                //Log.i("getCalendarVisits()", eventYear[i]);
                 cursor.moveToNext();
             }
         }
+
         cursor.close();
 
-        return eventIds;
+        return mVisitList;
     }
 }

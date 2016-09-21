@@ -1,10 +1,8 @@
 package ch223av.dv606.assignment2.MyCountriesCalendar;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -39,9 +37,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
         //Calendar
         mContext = getApplicationContext();
-        CalendarProviderClient test = new CalendarProviderClientImp();
-        long calendarId = test.getMyCountriesCalendarId();
-        //Log.d("Calendar id",calendarId+"");
 
         adapter = new VisitAdapter(this, R.layout.country_year_item, mCountries);
         mListView = (ListView) findViewById(R.id.list);
@@ -50,29 +45,11 @@ public class MyCountriesCalendar extends AppCompatActivity{
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-
-        //Should not be run here!
-        //test.addNewEvent(2016,"Finland");
-        //test.deleteEvent(36);
-        test.getEvents();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("onResume","got here!");
-
-        mVisit2 = new Visit(Parcel.obtain());
-
-        CalendarProviderClient CPC = new CalendarProviderClientImp();
-        long calId = CPC.getMyCountriesCalendarId();
-
-        String ADD_COUNTRY = "ADD_COUNTRY";
-        String country = "abc";
-        String year = "2016";
-
-        mVisit2.setCountry(country);
-        mVisit2.setYear(Integer.parseInt(year));
 
         adapter2 = new VisitAdapter(this, R.layout.country_year_item, mCountries);
         mListView = (ListView) findViewById(R.id.list);
@@ -82,8 +59,16 @@ public class MyCountriesCalendar extends AppCompatActivity{
             e.printStackTrace();
         }
 
+        CalendarProviderClient test = new CalendarProviderClientImp();
+        Visit[] events = test.getCalendarVisits();
         mCountries.clear();
-        mCountries.add(mVisit2);
+
+        for(int i=0; i<events.length; i++){
+            mCountries.add(events[i]);
+            //Log.i("Events",events[i].getCountry());
+            //Log.i("Events",events[i].getYear()+"");
+        }
+
         adapter2.notifyDataSetChanged();
     }
 
