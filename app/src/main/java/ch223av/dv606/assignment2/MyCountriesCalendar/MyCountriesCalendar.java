@@ -52,19 +52,20 @@ public class MyCountriesCalendar extends AppCompatActivity{
         }
 
         //Should not be run here!
-        //test.addNewEvent(2016,"Denmark");
+        //test.addNewEvent(2016,"Finland");
         //test.deleteEvent(36);
+        test.getEvents();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.i("onResume","got here!");
+
         mVisit2 = new Visit(Parcel.obtain());
 
         CalendarProviderClient CPC = new CalendarProviderClientImp();
         long calId = CPC.getMyCountriesCalendarId();
-
 
         String ADD_COUNTRY = "ADD_COUNTRY";
         String country = "abc";

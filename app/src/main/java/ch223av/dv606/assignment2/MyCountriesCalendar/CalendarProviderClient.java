@@ -54,7 +54,7 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
     /**
      * Selection args used when querying for MyCountries calendar
      */
-    String[] CALENDARS_LIST_SELECTION_ARGS = new String[] {
+    String[] CALENDARS_LIST_SELECTION_ARGS = new String[]{
             CALENDAR_TITLE,
             CalendarContract.ACCOUNT_TYPE_LOCAL
     };
@@ -64,7 +64,7 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * We really need only the ID field, but you may want to
      * add additional columns for debug purposes.
      */
-    String[] CALENDARS_LIST_PROJECTION = new String[] {
+    String[] CALENDARS_LIST_PROJECTION = new String[]{
             CalendarContract.Calendars._ID,
             CalendarContract.Calendars.NAME
     };
@@ -88,7 +88,7 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * When querying for events, call the CalendarUtils.getEventYear() helper function
      * with the DTSTART field value.
      */
-    String[] EVENTS_LIST_PROJECTION = new String[] {
+    String[] EVENTS_LIST_PROJECTION = new String[]{
             CalendarContract.Events._ID,
             CalendarContract.Events.TITLE,
             CalendarContract.Events.DTSTART
@@ -112,10 +112,10 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * You should call this method already from your activity's onCreate() (it seems
      * that it is not possible for a user to remove the calendar manually, so calling this method
      * from onResume() seems to be an overkill).
-     *
+     * <p>
      * Remember to use the proper NAME field value and ACCOUNT_TYPE value of ACCOUNT_TYPE_LOCAL!
      * More information here: http://developer.android.com/reference/android/provider/CalendarContract.Calendars.html
-     *
+     * <p>
      * To create a calendar, you will need to issue a query as a Sync Adapter – you will need
      * to specify ACCOUNT_NAME and ACCOUNT_TYPE not only in provided values, but also in the URI:
      * http://developer.android.com/guide/topics/providers/calendar-provider.html#sync-adapter
@@ -129,17 +129,17 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * Uses a Content Resolver to create a new calendar event.
      * You should call this method when handling a new data entry creation – use your code from
      * Assignment 1 to parse & validate user input, etc.
-     *
+     * <p>
      * The implementation of this method should call ContentResolver.insert() with
      * EVENTS_LIST_URI and values required by the Calendar Provider (use CalendarUtils methods
      * to get DTSTART, DTEND and EVENT_TIMEZONE values):
      * http://developer.android.com/guide/topics/providers/calendar-provider.html#add-event
-     *
+     * <p>
      * After you add an event, you should restart the Loader Manager from your activity to
      * get the updated data:
      * loaderManager.restartLoader(LOADER_MANAGER_ID, null, this)
      *
-     * @param year country visit year
+     * @param year    country visit year
      * @param country visited country name
      */
     void addNewEvent(int year, String country);
@@ -148,21 +148,21 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * Uses a Content Resolver to update a calendar event.
      * You should call this method when handling an entry update – use your code from
      * Assignment 1 to parse & validate user input, etc.
-     *
+     * <p>
      * The implementation of this method should call ContentResolver.update() with
      * an eligible URI and values required by the Calendar Provider (you will need to update only
      * the DTSTART, DTEND and TITLE fields):
      * http://developer.android.com/guide/topics/providers/calendar-provider.html#update-event
-     *
+     * <p>
      * The URI used for update should be constructed by calling
      * ContentUris.withAppendedId(EVENTS_LIST_URI, eventId)
-     *
+     * <p>
      * After you update an event, you should restart the Loader Manager from your activity to
      * get the updated data:
      * loaderManager.restartLoader(LOADER_MANAGER_ID, null, this)
      *
      * @param eventId event ID
-     * @param year country visit year
+     * @param year    country visit year
      * @param country visited country name
      */
     void updateEvent(int eventId, int year, String country);
@@ -170,14 +170,14 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
     /**
      * Uses a Content Resolver to delete a calendar event.
      * You should call this method when deleting an entry.
-     *
+     * <p>
      * The implementation of this method should call ContentResolver.delete() with
      * an eligible URI:
      * http://developer.android.com/guide/topics/providers/calendar-provider.html#delete-event
-     *
+     * <p>
      * The URI used for deletion should be constructed by calling
      * ContentUris.withAppendedId(EVENTS_LIST_URI, eventId)
-     *
+     * <p>
      * After you delete an event, you should restart the Loader Manager from your activity to
      * get the updated data:
      * loaderManager.restartLoader(LOADER_MANAGER_ID, null, this)
@@ -192,7 +192,7 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * You must actually create an instance of CursorLoader that would query the Calendar Provider
      * here.
      *
-     * @param id ID used to manage several loaders; can be ignored for this assignment
+     * @param id   ID used to manage several loaders; can be ignored for this assignment
      * @param args additional arguments; can probably be ignored for this assignment
      * @return a CursorLoader that will be used to actually query and update the provider data
      */
@@ -205,7 +205,7 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * (the simplest way is to call yourSimpleCursorAdapter.swapCursor(data) ).
      *
      * @param loader the actual loader object
-     * @param data the data cursor
+     * @param data   the data cursor
      */
     void onLoadFinished(Loader<Cursor> loader, Cursor data);
 
@@ -218,5 +218,8 @@ public interface CalendarProviderClient extends LoaderManager.LoaderCallbacks<Cu
      * @param loader the actual loader object
      */
     void onLoaderReset(Loader<Cursor> loader);
+
+    public String[] getEvents();
+
 
 }

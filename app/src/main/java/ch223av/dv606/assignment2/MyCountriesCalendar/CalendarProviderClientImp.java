@@ -152,10 +152,37 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
     }
 
 
-    static Uri asSyncAdapter(Uri uri, String account, String accountType) {
+    private static Uri asSyncAdapter(Uri uri, String account, String accountType) {
         return uri.buildUpon()
                 .appendQueryParameter(android.provider.CalendarContract.CALLER_IS_SYNCADAPTER,"true")
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_NAME, account)
                 .appendQueryParameter(CalendarContract.Calendars.ACCOUNT_TYPE, accountType).build();
+    }
+
+    public String[] getEvents(){
+        String[] eventsArr = {
+                CalendarContract.Events.TITLE,
+                CalendarContract.Events._ID
+        };
+
+        Context context = MyCountriesCalendar.getContext();
+        ContentResolver cr = context.getContentResolver();
+
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,null,null,null);
+        final String[] eventTitles = new String[cursor.getCount()];
+        final String[] eventIds = new String[cursor.getCount()];
+
+        if (cursor.moveToFirst()) {
+            for (int i = 0; i < eventTitles.length; i++) {
+                eventTitles[i] = cursor.getString(0);
+                eventIds[i] = cursor.getString(1);
+                //Log.i("getEvents()", eventTitles[i]);
+                //Log.i("getEvents()", eventIds[i]);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+
+        return eventIds;
     }
 }
