@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Assignment2</string>
 
+
     <string name="my_countries_title">My Countries</string>
     <string name="action_test">Add visit</string>
     <string name="no_countries_added">Add a country</string>
@@ -9,11 +10,12 @@
     <string name="save_country_year_button">Save</string>
     <string name="add_country_year_text">Add the country and year you visited</string>
     <string name="add_country_toast">Enter both year and country!</string>
-
     <string name="action_settings">Settings</string>
     <string name="descending">Descending</string>
     <string name="ascending">Ascending</string>
     <string name="orderyears">Order years by:</string>
     <string name="ordertitle">Order countries by:</string>
+
+    <string name="alarm_clock_title">Alarm Clock</string>
 
 </resources>

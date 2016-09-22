@@ -33,6 +33,17 @@
             android:textColor="@color/colorButtonText"
             android:layout_margin="4dp"
             />
+
+        <Button
+            android:id="@+id/alarm_clock_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorButtonBackground"
+            android:text="@string/alarm_clock_title"
+            android:textColor="@color/colorButtonText"
+            android:layout_margin="4dp"
+            />
+
     </LinearLayout>
 
 
