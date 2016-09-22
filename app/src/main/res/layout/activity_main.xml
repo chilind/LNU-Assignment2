@@ -44,6 +44,16 @@
             android:layout_margin="4dp"
             />
 
+        <Button
+            android:id="@+id/mp3_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorButtonBackground"
+            android:text="@string/mp3_title"
+            android:textColor="@color/colorButtonText"
+            android:layout_margin="4dp"
+            />
+
     </LinearLayout>
 
 

@@ -18,4 +18,6 @@
 
     <string name="alarm_clock_title">Alarm Clock</string>
 
+    <string name="mp3_title">MP3 Player</string>
+
 </resources>

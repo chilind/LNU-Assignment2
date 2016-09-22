@@ -32,6 +32,8 @@
                   android:parentActivityName=".MainActivity"/>
         <activity android:name=".AlarmClock.SetAlarm"
                   android:parentActivityName=".AlarmClock.AlarmClock" />
+        <activity android:name=".MP3Player.Mp3Player"
+                  android:parentActivityName=".MainActivity" />
 
         <receiver  android:process=":remote" android:name=".AlarmClock.AlarmReceiver"></receiver>
     </application>

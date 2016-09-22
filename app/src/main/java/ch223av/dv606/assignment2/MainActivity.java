@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import ch223av.dv606.assignment2.AlarmClock.AlarmClock;
+import ch223av.dv606.assignment2.MP3Player.Mp3Player;
 import ch223av.dv606.assignment2.MyCountriesCalendar.MyCountriesCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button mCountriesButton;
     private Button mAlarmClockButton;
+    private Button mPlayerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         mCountriesButton = (Button) findViewById(R.id.my_countries_button);
         mAlarmClockButton = (Button) findViewById(R.id.alarm_clock_button);
+        mPlayerButton = (Button) findViewById(R.id.mp3_button);
 
         mCountriesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent alarmInt = new Intent(getApplicationContext(), AlarmClock.class);
                 startActivity(alarmInt);
+            }
+        });
+
+        mPlayerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent playerInt = new Intent(getApplicationContext(), Mp3Player.class);
+                startActivity(playerInt);
             }
         });
     }
