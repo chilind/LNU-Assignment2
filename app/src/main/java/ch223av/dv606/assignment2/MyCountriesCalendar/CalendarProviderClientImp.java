@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -20,6 +21,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
 
     private SimpleCursorAdapter mAdapter;
     private Visit mVisit;
+
+    SharedPreferences sharedpreferences = MyCountriesCalendar.getContext().getSharedPreferences(Settings.MyPREFERENCES, Context.MODE_PRIVATE);
 
     @Override
     public long getMyCountriesCalendarId() {
@@ -117,7 +120,9 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         //Get correct event id.
         ContentResolver cr = context.getContentResolver();
         String[] eventsId = {CalendarContract.Events._ID};
-        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, MyCountriesCalendar.ascDesc);
+
+        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, "-1");
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, orderPrefs);
         cursor.moveToPosition(eventId);
 
         Uri updateUri = ContentUris.withAppendedId(EVENTS_LIST_URI, cursor.getInt(0));
@@ -134,7 +139,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         ContentResolver cr = context.getContentResolver();
         String[] eventsId = {CalendarContract.Events._ID};
 
-        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, MyCountriesCalendar.ascDesc);
+        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, "-1");
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, orderPrefs);
 
         cursor.moveToPosition(eventId);
         Uri deleteUri = ContentUris.withAppendedId(EVENTS_LIST_URI, cursor.getInt(0));
@@ -179,7 +185,8 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
 
-        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, MyCountriesCalendar.ascDesc);
+        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, "-1");
+        Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, orderPrefs);
         Visit[] mVisitList = new Visit[cursor.getCount()];
 
         if (cursor.moveToFirst()) {

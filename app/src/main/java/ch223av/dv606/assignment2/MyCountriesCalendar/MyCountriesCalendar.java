@@ -2,6 +2,7 @@ package ch223av.dv606.assignment2.MyCountriesCalendar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,8 +24,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
     static final int SET_COUNTRY_REQUEST = 1;
     static final int SET_VISIT_REQUEST = 2;
     static final int SET_SETTINGS_REQUEST = 3;
-
-    public static String ascDesc = "dtstart ASC";
 
     private Visit mVisit;
     private Visit mEditVisit;
@@ -156,22 +155,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
     public void startSettingsActivity() {
         Intent intent = new Intent(this, Settings.class);
         startActivityForResult(intent, SET_SETTINGS_REQUEST);
-    }
-
-    private void startSortActivity() {
-        Context context = getApplicationContext();
-        int toastDuration = Toast.LENGTH_SHORT;
-        if(ascDesc == "dtstart ASC"){
-            ascDesc = "dtstart DESC";
-            CharSequence text = "Sorting descending order.";
-            (Toast.makeText(context, text, toastDuration)).show();
-        }
-        else{
-            ascDesc = "dtstart ASC";
-            CharSequence text = "Sorting ascending order.";
-            (Toast.makeText(context, text, toastDuration)).show();
-        }
-        onResume();
     }
 
     @Override
