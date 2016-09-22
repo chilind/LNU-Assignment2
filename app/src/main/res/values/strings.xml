@@ -10,4 +10,6 @@
     <string name="add_country_year_text">Add the country and year you visited</string>
     <string name="add_country_toast">Enter both year and country!</string>
 
+    <string name="action_settings">Settings</string>
+
 </resources>

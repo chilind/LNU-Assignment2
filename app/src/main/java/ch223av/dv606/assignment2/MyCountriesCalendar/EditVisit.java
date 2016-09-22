@@ -13,10 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import ch223av.dv606.assignment2.MyCountriesCalendar.AddVisit;
-import ch223av.dv606.assignment2.MyCountriesCalendar.CalendarProviderClient;
-import ch223av.dv606.assignment2.MyCountriesCalendar.CalendarProviderClientImp;
-import ch223av.dv606.assignment2.MyCountriesCalendar.Visit;
 import ch223av.dv606.assignment2.R;
 
 public class EditVisit extends AppCompatActivity{
@@ -34,7 +30,7 @@ public class EditVisit extends AppCompatActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_add_country_year);
+		setContentView(R.layout.activity_add_visit);
 
 		mYear = (EditText) findViewById(R.id.yearEditText);
 		mCountry = (EditText) findViewById(R.id.countryEditText);

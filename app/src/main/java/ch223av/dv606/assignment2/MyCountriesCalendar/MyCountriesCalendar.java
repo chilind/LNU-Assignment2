@@ -22,6 +22,7 @@ import ch223av.dv606.assignment2.MyCountriesCalendar.adapters.VisitAdapter;
 public class MyCountriesCalendar extends AppCompatActivity{
     static final int SET_COUNTRY_REQUEST = 1;
     static final int SET_VISIT_REQUEST = 2;
+    static final int SET_SETTINGS_REQUEST = 3;
 
     public static String ascDesc = "dtstart ASC";
 
@@ -129,9 +130,14 @@ public class MyCountriesCalendar extends AppCompatActivity{
                 // User pressed the "Add country" button --> show the activity...
                 startAddVisitActivity();
                 return true;
-
+            /*
             case R.id.action_sort:
                 startSortActivity();
+                return true;
+            */
+
+            case R.id.action_settings:
+                startSettingsActivity();
                 return true;
 
             default:
@@ -139,6 +145,17 @@ public class MyCountriesCalendar extends AppCompatActivity{
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void startAddVisitActivity() {
+        //Display
+        Intent intent = new Intent(this, AddVisit.class);
+        startActivityForResult(intent, SET_COUNTRY_REQUEST);
+    }
+
+    public void startSettingsActivity() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivityForResult(intent, SET_SETTINGS_REQUEST);
     }
 
     private void startSortActivity() {
@@ -155,12 +172,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
             (Toast.makeText(context, text, toastDuration)).show();
         }
         onResume();
-    }
-
-    public void startAddVisitActivity() {
-        //Display
-        Intent intent = new Intent(this, AddVisit.class);
-        startActivityForResult(intent, SET_COUNTRY_REQUEST);
     }
 
     @Override
@@ -181,6 +192,8 @@ public class MyCountriesCalendar extends AppCompatActivity{
 
             CalendarProviderClient test = new CalendarProviderClientImp();
             test.updateEvent(editID, year, country);
+        }else if(requestCode == SET_SETTINGS_REQUEST) {
+            Log.i("Settings","exited");
         }
     }
     public static Context getContext() {

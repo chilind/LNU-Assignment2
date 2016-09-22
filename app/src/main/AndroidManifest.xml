@@ -26,6 +26,8 @@
                   android:parentActivityName=".MyCountriesCalendar.MyCountriesCalendar"/>
         <activity android:name=".MyCountriesCalendar.EditVisit"
                   android:parentActivityName=".MyCountriesCalendar.MyCountriesCalendar"/>
+        <activity android:name=".MyCountriesCalendar.Settings"
+                  android:parentActivityName=".MyCountriesCalendar.MyCountriesCalendar"/>
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@ public class AddVisit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_country_year);
+        setContentView(R.layout.activity_add_visit);
 
         mYear = (EditText) findViewById(R.id.yearEditText);
         mCountry = (EditText) findViewById(R.id.countryEditText);
