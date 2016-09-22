@@ -53,6 +53,18 @@ public class MyCountriesCalendar extends AppCompatActivity{
         registerForContextMenu(mListView);
     }
 
+    private void setBgColor() {
+        SharedPreferences sharedpreferences = this.getSharedPreferences(Settings.MyPREFERENCES, Context.MODE_PRIVATE);
+        int defaultColor = getResources().getColor(R.color.colorBackground);
+        int col = sharedpreferences.getInt(Settings.COLORPREFS,defaultColor);
+
+        Log.i("setBgColor",col+"");
+        Log.i("setBgColor",defaultColor+"");
+        mListView = (ListView) findViewById(R.id.list);
+        mListView.setBackgroundColor(col);
+        getWindow().getDecorView().setBackgroundColor(col);
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -94,6 +106,8 @@ public class MyCountriesCalendar extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+
+        setBgColor();
 
         adapter2 = new VisitAdapter(this, R.layout.country_year_item, mCountries);
         mListView = (ListView) findViewById(R.id.list);
