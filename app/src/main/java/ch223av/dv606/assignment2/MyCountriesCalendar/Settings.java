@@ -20,7 +20,10 @@ public class Settings extends AppCompatActivity{
     public static final String ORDERPREFS = "orderPrefs";
     public static final String SIZEPREFS = "SIZEPREFS";
     public static final String COLORPREFS = "COLORPREFS";
+    public static final String MyPREFERENCES = "MyPrefs";
+
     private static final String TAG = Settings.class.getSimpleName();
+    public SharedPreferences sharedpreferences;
 
     private String dtstartAscDesc = "dtstart ASC";
     private String titleAscDesc = "title ASC";
@@ -31,9 +34,6 @@ public class Settings extends AppCompatActivity{
     SeekBar mTextSizeSeekBar;
     TextView mChangeTextSize;
     Switch mBgSwitch;
-
-    public static final String MyPREFERENCES = "MyPrefs";
-    public SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

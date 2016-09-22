@@ -58,8 +58,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
         int defaultColor = getResources().getColor(R.color.colorBackground);
         int col = sharedpreferences.getInt(Settings.COLORPREFS,defaultColor);
 
-        Log.i("setBgColor",col+"");
-        Log.i("setBgColor",defaultColor+"");
         mListView = (ListView) findViewById(R.id.list);
         mListView.setBackgroundColor(col);
         getWindow().getDecorView().setBackgroundColor(col);
@@ -143,11 +141,6 @@ public class MyCountriesCalendar extends AppCompatActivity{
                 // User pressed the "Add country" button --> show the activity...
                 startAddVisitActivity();
                 return true;
-            /*
-            case R.id.action_sort:
-                startSortActivity();
-                return true;
-            */
 
             case R.id.action_settings:
                 startSettingsActivity();

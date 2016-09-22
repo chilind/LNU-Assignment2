@@ -121,7 +121,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         ContentResolver cr = context.getContentResolver();
         String[] eventsId = {CalendarContract.Events._ID};
 
-        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, "-1");
+        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, null);
         Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, orderPrefs);
         cursor.moveToPosition(eventId);
 
@@ -139,7 +139,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         ContentResolver cr = context.getContentResolver();
         String[] eventsId = {CalendarContract.Events._ID};
 
-        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, "-1");
+        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, null);
         Cursor cursor = cr.query(EVENTS_LIST_URI,eventsId,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, orderPrefs);
 
         cursor.moveToPosition(eventId);
@@ -185,7 +185,7 @@ public class CalendarProviderClientImp extends AppCompatActivity implements Cale
         Context context = MyCountriesCalendar.getContext();
         ContentResolver cr = context.getContentResolver();
 
-        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, "-1");
+        String orderPrefs = sharedpreferences.getString(Settings.ORDERPREFS, null);
         Cursor cursor = cr.query(EVENTS_LIST_URI,eventsArr,"CALENDAR_ID="+(int)getMyCountriesCalendarId(),null, orderPrefs);
         Visit[] mVisitList = new Visit[cursor.getCount()];
 

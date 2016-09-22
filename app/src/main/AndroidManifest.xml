@@ -30,6 +30,10 @@
                   android:parentActivityName=".MyCountriesCalendar.MyCountriesCalendar"/>
         <activity android:name=".AlarmClock.AlarmClock"
                   android:parentActivityName=".MainActivity"/>
+        <activity android:name=".AlarmClock.SetAlarm"
+                  android:parentActivityName=".AlarmClock.AlarmClock" />
+
+        <receiver  android:process=":remote" android:name=".AlarmClock.AlarmReceiver"></receiver>
     </application>
 
 </manifest>
