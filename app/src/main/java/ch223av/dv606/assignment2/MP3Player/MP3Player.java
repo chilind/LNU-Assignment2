@@ -60,9 +60,10 @@ public class MP3Player extends AppCompatActivity {
 
         // Initialize the layout
         setContentView(R.layout.activity_mp3_player);
-        // Initialize the toolbar
-        //Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        //setSupportActionBar(myToolbar);
+
+        // Initialize the list of songs
+        final ListView playlistListView = (ListView) findViewById(R.id.playlist_list_view);
+        final ArrayList<Song> songs = songList();
 
         mPreviousButton = (Button) findViewById(R.id.prevButton);
         mNextButton = (Button) findViewById(R.id.nextButton);
@@ -85,6 +86,7 @@ public class MP3Player extends AppCompatActivity {
                 if(!mediaPlayer.isPlaying()){
                     mediaPlayer.seekTo(songProgress);
                     mediaPlayer.start();
+                    songProgress = 0;
                 }
             }
         });
@@ -93,23 +95,30 @@ public class MP3Player extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playlistProgress = playlistProgress + 1;
+                play(songs.get(playlistProgress)); // set the song to play
                 Log.i(TAG,playlistProgress+"");
             }
         });
 
+        mPreviousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playlistProgress = playlistProgress - 1;
+                play(songs.get(playlistProgress));
+                Log.i(TAG,playlistProgress+"");
+            }
+        });
 
+        //externalSongList();
 
-        // Initialize the list of songs
-        final ListView listView = (ListView) findViewById(R.id.playlist_list_view);
-        final ArrayList<Song> songs = songList();
-        externalSongList();
-
-        listView.setAdapter(new PlayListAdapter(this, songs));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        playlistListView.setAdapter(new PlayListAdapter(this, songs));
+        playlistListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long arg3)
             {
+                Log.i(TAG,"Position: " + pos);
+                playlistProgress = pos;
                 play(songs.get(pos));
             }
         });

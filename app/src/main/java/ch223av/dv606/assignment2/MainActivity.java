@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import ch223av.dv606.assignment2.AlarmClock.AlarmClock;
 import ch223av.dv606.assignment2.MP3Player.MP3Player;
