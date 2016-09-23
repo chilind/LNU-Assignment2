@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import ch223av.dv606.assignment2.AlarmClock.AlarmClock;
-import ch223av.dv606.assignment2.MP3Player.Mp3Player;
+import ch223av.dv606.assignment2.MP3Player.MP3Player;
 import ch223av.dv606.assignment2.MyCountriesCalendar.MyCountriesCalendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         mPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent playerInt = new Intent(getApplicationContext(), Mp3Player.class);
+                Intent playerInt = new Intent(getApplicationContext(), MP3Player.class);
                 startActivity(playerInt);
             }
         });

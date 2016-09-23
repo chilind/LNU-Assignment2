@@ -19,5 +19,9 @@
     <string name="alarm_clock_title">Alarm Clock</string>
 
     <string name="mp3_title">MP3 Player</string>
+    <string name="title_activity_main">MP3 Player</string>
+    <string name="nosd">Media storage is not available</string>
+    <string name="error">Player crashed</string>
+    <string name="stop_playback">Stop playback</string>
 
 </resources>
