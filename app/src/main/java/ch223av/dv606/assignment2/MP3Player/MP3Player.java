@@ -1,6 +1,7 @@
 package ch223av.dv606.assignment2.MP3Player;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -43,6 +44,11 @@ public class MP3Player extends AppCompatActivity {
     // and you can't, e.g., stop the playback for the previous instance,
     // and if you click a song, you will hear another audio stream started
     public final MediaPlayer mediaPlayer = new MediaPlayer();
+    public static final String PLAYLISTPROGRESS = "PLAYLISTPROGRESS";
+    public static final String MyPREFERENCES = "MyPrefs";
+
+    public SharedPreferences sharedpreferences;
+
 
 
     Button mPreviousButton;
@@ -70,6 +76,10 @@ public class MP3Player extends AppCompatActivity {
         mPauseButton = (Button) findViewById(R.id.pauseButton);
         mPlayButton = (Button) findViewById(R.id.playButton);
 
+
+
+        sharedpreferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         mPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,22 +104,39 @@ public class MP3Player extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playlistProgress = playlistProgress + 1;
-                play(songs.get(playlistProgress)); // set the song to play
-                Log.i(TAG,playlistProgress+"");
+                Log.i(TAG,"Songs size: " +songs.size());
+
+                playlistProgress = sharedpreferences.getInt(PLAYLISTPROGRESS,0) + 1;
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putInt(PLAYLISTPROGRESS, playlistProgress);
+                editor.apply();
+
+                //Ensure there is another song in playlist
+                if(songs.size() > playlistProgress ) {
+                    play(songs.get(playlistProgress)); // set the song to play
+                }
             }
         });
 
         mPreviousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playlistProgress = playlistProgress - 1;
+
+                playlistProgress = sharedpreferences.getInt(PLAYLISTPROGRESS,0) - 1;
+                Log.i("playlistprog", playlistProgress+"");
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putInt(PLAYLISTPROGRESS, playlistProgress);
+                editor.apply();
+
                 play(songs.get(playlistProgress));
                 Log.i(TAG,playlistProgress+"");
             }
         });
 
-        //externalSongList();
+        Log.i("Running","externalSongList()");
+        externalSongList();
 
         playlistListView.setAdapter(new PlayListAdapter(this, songs));
         playlistListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -118,7 +145,11 @@ public class MP3Player extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int pos, long arg3)
             {
                 Log.i(TAG,"Position: " + pos);
-                playlistProgress = pos;
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putInt(PLAYLISTPROGRESS, pos);
+                editor.apply();
+
                 play(songs.get(pos));
             }
         });
@@ -206,6 +237,9 @@ public class MP3Player extends AppCompatActivity {
         ArrayList<Song> songs = new ArrayList<Song>();
 
         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        path.mkdirs();
+
+
         Cursor c = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 new String[] { "distinct " + MediaStore.Audio.Media.ALBUM,
                         MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM_KEY,
@@ -214,7 +248,12 @@ public class MP3Player extends AppCompatActivity {
                 null,
                 MediaStore.Audio.Media.ARTIST);
         Log.i(TAG,path.toString());
-        Log.i(TAG,c.toString());
+        try {
+            Log.i(TAG, c.getString(0));
+        }
+        catch (Exception e){
+            Log.i(TAG,e.toString());
+        }
         return songs;
 
         /*
