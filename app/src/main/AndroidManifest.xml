@@ -36,6 +36,8 @@
         <activity android:name=".MP3Player.MP3Player"
                   android:parentActivityName=".MainActivity" />
 
+        <service android:name=".MP3Player.PlayService" />
+
         <receiver  android:process=":remote" android:name=".AlarmClock.AlarmReceiver"></receiver>
     </application>
 

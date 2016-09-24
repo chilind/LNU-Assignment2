@@ -23,5 +23,6 @@
     <string name="nosd">Media storage is not available</string>
     <string name="error">Player crashed</string>
     <string name="stop_playback">Stop playback</string>
+    <string name="ticker_text">Ticker text</string>
 
 </resources>
