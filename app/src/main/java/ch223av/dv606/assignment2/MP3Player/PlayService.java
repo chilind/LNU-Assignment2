@@ -36,7 +36,8 @@ public class PlayService extends Service {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("My notification")
                 .setContentText("Hello World!")
-                .setTicker("ticker");
+                .setTicker("ticker")
+                .setAutoCancel(true);
 
 
         Intent notificationIntent = new Intent(this, MP3Player.class);

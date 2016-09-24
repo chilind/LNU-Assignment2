@@ -24,5 +24,8 @@
     <string name="error">Player crashed</string>
     <string name="stop_playback">Stop playback</string>
     <string name="ticker_text">Ticker text</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="play_pause">Play / Pause</string>
 
 </resources>

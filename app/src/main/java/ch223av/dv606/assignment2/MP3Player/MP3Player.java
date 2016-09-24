@@ -49,7 +49,6 @@ public class MP3Player extends AppCompatActivity {
 
     Button mPreviousButton;
     Button mNextButton;
-    Button mPauseButton;
     Button mPlayButton;
 
     int songProgress;
@@ -69,25 +68,10 @@ public class MP3Player extends AppCompatActivity {
 
         mPreviousButton = (Button) findViewById(R.id.prevButton);
         mNextButton = (Button) findViewById(R.id.nextButton);
-        mPauseButton = (Button) findViewById(R.id.pauseButton);
         mPlayButton = (Button) findViewById(R.id.playButton);
 
         sharedpreferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-
-        mPauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mediaPlayer.isPlaying()){
-                    mediaPlayer.pause();
-                    songProgress = mediaPlayer.getCurrentPosition();
-                }else {
-                    mediaPlayer.seekTo(songProgress);
-                    mediaPlayer.start();
-                    songProgress = 0;
-                }
-            }
-        });
 
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,19 +230,15 @@ public class MP3Player extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("OnResume",""+(mediaPlayer.isPlaying()));
-        /*
-        try{
-            //mediaPlayer.reset(); // reset the resource of player
-            //mediaPlayer.setDataSource(this, Uri.parse(song.getPath())); // set the song to play
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION); // select the audio stream
-            mediaPlayer.prepare();
-        }catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }*/
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent svc2 = new Intent(this, PlayService.class);
+        this.stopService(svc2);
 
+    }
 
     /**
      * Uses mediaPlayer to play the selected song.
