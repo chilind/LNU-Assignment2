@@ -9,8 +9,7 @@
     <color name="colorTextBlack">#000000</color>
 
     <color name="colorButtonText">#FFFFFF</color>
-    <color name="colorButtonBackground">#FF9800</color>
+    <color name="colorButtonBackground">#ea8401</color>
 
     <color name="colorBackground">#FF9800</color>
-    <color name="colorBackgroundButton">#40ffffff</color>
 </resources>

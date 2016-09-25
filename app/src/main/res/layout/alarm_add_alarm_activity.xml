@@ -11,10 +11,12 @@
         android:id="@+id/allAlarmTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Alarm!!"
-        android:textSize="24sp"
+        android:text="@string/AddAlarm"
+        android:textSize="32sp"
         android:textColor="@color/colorText"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:padding="12dp"
+        />
 
     <TimePicker
         android:id="@+id/timePicker"
@@ -27,8 +29,12 @@
         android:id="@+id/addAlarmButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add alarm"
+        android:text="@string/AddAlarm"
+        android:textColor="@color/colorButtonText"
+        android:background="@color/colorButtonBackground"
+        android:textSize="24sp"
         android:layout_gravity="center_horizontal"
+        android:padding="8dp"
         />
 
 </LinearLayout>

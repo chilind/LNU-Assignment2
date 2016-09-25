@@ -50,7 +50,7 @@ public class MP3Player extends AppCompatActivity {
     Button mNextButton;
     Button mPlayButton;
 
-    int playlistProgress = 0;
+    int playlistProgress = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

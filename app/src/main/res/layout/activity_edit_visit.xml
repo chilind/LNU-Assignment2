@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="@string/save_country_year_button"
         android:textColor="@color/colorText"
-        android:background="@color/colorBackgroundButton"
+        android:background="@color/colorButtonBackground"
         android:layout_below="@+id/editCountryEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"/>
