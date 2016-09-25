@@ -45,13 +45,11 @@ public class MP3Player extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPrefs";
 
     public SharedPreferences sharedpreferences;
-    NotificationCompat.Builder mBuilder;
 
     Button mPreviousButton;
     Button mNextButton;
     Button mPlayButton;
 
-    int songProgress;
     int playlistProgress = 0;
 
     @Override
@@ -78,11 +76,17 @@ public class MP3Player extends AppCompatActivity {
             public void onClick(View v) {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
-                    songProgress = mediaPlayer.getCurrentPosition();
+
+                    Log.i(TAG,"Starting service");
+                    Intent svc = new Intent(getApplicationContext(), PlayService.class);
+                    stopService(svc);
+
                 } else {
-                    mediaPlayer.seekTo(songProgress);
                     mediaPlayer.start();
-                    songProgress = 0;
+
+                    Log.i(TAG,"Starting service");
+                    Intent svc = new Intent(getApplicationContext(), PlayService.class);
+                    startService(svc);
                 }
             }
         });
@@ -90,17 +94,23 @@ public class MP3Player extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG,"Songs size: " +songs.size());
-
                 playlistProgress = sharedpreferences.getInt(PLAYLISTPROGRESS,0) + 1;
 
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putInt(PLAYLISTPROGRESS, playlistProgress);
-                editor.apply();
-
                 //Ensure there is another song in playlist
-                if(songs.size() > playlistProgress ) {
+                if(playlistProgress < songs.size()) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putInt(PLAYLISTPROGRESS, playlistProgress);
+                    editor.apply();
+
                     play(songs.get(playlistProgress)); // set the song to play
+                }
+                else if(songs.size() == playlistProgress){
+                    play(songs.get(0));
+
+                    playlistProgress = 0;
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putInt(PLAYLISTPROGRESS, playlistProgress);
+                    editor.apply();
                 }
             }
         });
@@ -109,21 +119,19 @@ public class MP3Player extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                playlistProgress = sharedpreferences.getInt(PLAYLISTPROGRESS,0) - 1;
-                Log.i("playlistprog", playlistProgress+"");
+                if(playlistProgress != 0){
+                    playlistProgress = sharedpreferences.getInt(PLAYLISTPROGRESS,0) - 1;
+                    Log.i("playlistprog", playlistProgress+"");
 
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putInt(PLAYLISTPROGRESS, playlistProgress);
-                editor.apply();
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putInt(PLAYLISTPROGRESS, playlistProgress);
+                    editor.apply();
 
-                play(songs.get(playlistProgress));
-                Log.i(TAG,playlistProgress+"");
+                    play(songs.get(playlistProgress));
+                    Log.i(TAG,playlistProgress+"");
+                }
             }
         });
-
-        Log.i(TAG,"Starting service");
-        Intent svc = new Intent(this, PlayService.class);
-        this.startService(svc);
 
 
         playlistListView.setAdapter(new PlayListAdapter(this, songs));
@@ -230,14 +238,6 @@ public class MP3Player extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Intent svc2 = new Intent(this, PlayService.class);
-        this.stopService(svc2);
-
     }
 
     /**

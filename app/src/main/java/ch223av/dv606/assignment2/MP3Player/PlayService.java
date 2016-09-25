@@ -34,8 +34,8 @@ public class PlayService extends Service {
 
         mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
+                .setContentTitle("MP3 Player")
+                //.setContentText("Hello World!")
                 .setTicker("ticker")
                 .setAutoCancel(true);
 

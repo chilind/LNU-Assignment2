@@ -8,20 +8,31 @@ import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 
 import java.util.Calendar;
 
-public class AlarmReceiver extends BroadcastReceiver {
+public class AlarmReceiver extends AppCompatActivity {
 	AlarmManager am;
 	PendingIntent sender;
 
 	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Log.i("AlarmReceiver", "onReceive");
+		AlarmClock.play(this);
+
+	}
+	/*
+	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i("AlarmReceiver", "onReceive");
 		AlarmClock.play(context);
-	}
+	}*/
 
 
 	public void setAlarm(String hour, String minute) {
