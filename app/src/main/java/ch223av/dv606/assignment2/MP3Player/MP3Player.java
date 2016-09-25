@@ -1,6 +1,5 @@
 package ch223av.dv606.assignment2.MP3Player;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,7 +47,8 @@ public class MP3Player extends AppCompatActivity {
     Button mNextButton;
     Button mPlayButton;
 
-    int playlistProgress = 1;
+    int playlistProgress = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,6 +68,9 @@ public class MP3Player extends AppCompatActivity {
 
         sharedpreferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
+        Intent svc = new Intent(getApplicationContext(), PlayService.class);
+        startService(svc);
+
 
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,16 +78,8 @@ public class MP3Player extends AppCompatActivity {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
 
-                    Log.i(TAG,"Starting service");
-                    Intent svc = new Intent(getApplicationContext(), PlayService.class);
-                    stopService(svc);
-
                 } else {
                     mediaPlayer.start();
-
-                    Log.i(TAG,"Starting service");
-                    Intent svc = new Intent(getApplicationContext(), PlayService.class);
-                    startService(svc);
                 }
             }
         });
@@ -121,14 +114,12 @@ public class MP3Player extends AppCompatActivity {
 
                 if(playlistProgress != 0){
                     playlistProgress = sharedpreferences.getInt(PLAYLISTPROGRESS,0) - 1;
-                    Log.i("playlistprog", playlistProgress+"");
 
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putInt(PLAYLISTPROGRESS, playlistProgress);
                     editor.apply();
 
                     play(songs.get(playlistProgress));
-                    Log.i(TAG,playlistProgress+"");
                 }
             }
         });
@@ -140,8 +131,6 @@ public class MP3Player extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long arg3)
             {
-                Log.i(TAG,"Position: " + pos);
-
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putInt(PLAYLISTPROGRESS, pos);
                 editor.apply();
@@ -299,7 +288,10 @@ public class MP3Player extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.stop_player:
+                Intent svc = new Intent(getApplicationContext(), PlayService.class);
+                stopService(svc);
                 stop();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
